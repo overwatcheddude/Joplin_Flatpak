@@ -3,7 +3,8 @@ runtime: org.freedesktop.Platform//24.08
 sdk: org.freedesktop.Sdk//24.08
 command: joplin_desktop
 finish-args:
-  - --socket=wayland
+  - --share=ipc
+  - --socket=x11
   - --device=dri
   - --share=network
   - --filesystem=home
