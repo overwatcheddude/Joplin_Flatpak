@@ -1,0 +1,50 @@
+app-id: io.github.overwatcheddude.joplin_desktop
+runtime: org.freedesktop.Platform//24.08
+sdk: org.freedesktop.Sdk//24.08
+command: joplin_desktop
+finish-args:
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+  - --filesystem=home
+
+modules:
+  - name: joplin_desktop
+    buildsystem: simple
+    build-commands:
+      # Extract the .deb package
+      - ar x Joplin-3.4.1.deb
+      # Extract data file
+      - tar xf data.tar.xz
+
+      # --- Main Application Files ---
+      # Create the main app directory and copy files from /opt
+      - mkdir -p ${FLATPAK_DEST}/joplin_desktop
+      - cp -r opt/Joplin/* ${FLATPAK_DEST}/joplin_desktop
+      # Rename the actual executable 'joplin' to what our command expects
+      - mv ${FLATPAK_DEST}/joplin_desktop/joplin ${FLATPAK_DEST}/joplin_desktop/joplin_desktop
+
+      # --- Wrapper Script ---
+      # Create the executable script in /app/bin
+      - mkdir -p ${FLATPAK_DEST}/bin
+      - |
+        cat > ${FLATPAK_DEST}/bin/joplin_desktop << 'EOF'
+        #!/bin/sh
+        exec /app/joplin_desktop/joplin_desktop --no-sandbox "$@"
+        EOF
+      - chmod +x ${FLATPAK_DEST}/bin/joplin_desktop
+
+      # --- Desktop Integration Files ---
+      # Install icons to the standard location
+      - mkdir -p ${FLATPAK_DEST}/share/icons/hicolor
+      - cp -r usr/share/icons/hicolor ${FLATPAK_DEST}/share/icons/
+      # Install the .desktop file, renaming it to match the app-id
+      - install -D usr/share/applications/joplin.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      # Update the Exec key in the .desktop file to be correct for Flatpak
+      - sed -i 's/^Exec=.*/Exec=joplin_desktop/' ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+
+    sources:
+      - type: file
+        url: https://github.com/laurent22/joplin/releases/download/v3.4.1/Joplin-3.4.1.deb
+        sha512: d189688c1968519b83247304b4cbdadde0a032a59112485cab8c8c16134317e00f7135af5aab520d3c1eaa423a6a22cb0cbf0cf44e784c9e2def543ffba42242
+        dest-filename: Joplin-3.4.1.deb
