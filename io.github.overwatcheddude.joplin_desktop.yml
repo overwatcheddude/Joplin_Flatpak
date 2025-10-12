@@ -14,7 +14,7 @@ modules:
     buildsystem: simple
     build-commands:
       # Extract the .deb package
-      - ar x Joplin-3.4.6.deb
+      - ar x Joplin-3.4.12.deb
       # Extract data file
       - tar xf data.tar.xz
 
@@ -46,6 +46,6 @@ modules:
 
     sources:
       - type: file
-        url: https://github.com/laurent22/joplin/releases/download/v3.4.6/Joplin-3.4.6.deb
-        sha256: b88171738be3c22098c59e80dc210615de329efae6262d7fbe825ea42c93832c
-        dest-filename: Joplin-3.4.6.deb
+        url: https://github.com/laurent22/joplin/releases/download/v3.4.12/Joplin-3.4.12.deb
+        sha256: 49fafcfe615ac90449f9ce4545f807f054221df49877dbe785dbc7157ed0860d
+        dest-filename: Joplin-3.4.12.deb
