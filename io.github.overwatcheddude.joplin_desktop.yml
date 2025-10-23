@@ -39,10 +39,18 @@ modules:
       # Install icons to the standard location
       - mkdir -p ${FLATPAK_DEST}/share/icons/hicolor
       - cp -r usr/share/icons/hicolor ${FLATPAK_DEST}/share/icons/
+      # Rename icons to match Flatpak app-id
+      - find ${FLATPAK_DEST}/share/icons/hicolor -type f -name 'joplin.png' -exec bash -c 'for f; do mv "$f" "${f%/*}/io.github.overwatcheddude.joplin_desktop.png"; done' bash {} +
+
       # Install the .desktop file, renaming it to match the app-id
       - install -D usr/share/applications/joplin.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       # Update the Exec key in the .desktop file to be correct for Flatpak
       - sed -i 's/^Exec=.*/Exec=joplin_desktop/' ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      # Update the Icon key in the .desktop file to be correct for Flatpak
+      - sed -i 's/^Icon=.*/Icon=io.github.overwatcheddude.joplin_desktop/' ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      
+      # Remove 1024x1024 icon due to Freedesktop restriction
+      - rm -f ${FLATPAK_DEST}/share/icons/hicolor/1024x1024/apps/io.github.overwatcheddude.joplin_desktop.png
 
     sources:
       - type: file
