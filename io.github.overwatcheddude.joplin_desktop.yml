@@ -7,7 +7,7 @@ finish-args:
   - --socket=x11
   - --device=dri
   - --share=network
-  - --filesystem=home
+  - --persist=
 
 modules:
   - name: joplin_desktop
