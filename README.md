@@ -9,7 +9,6 @@ This repository contains the Flatpak manifest to build and package Joplin Deskto
 ## Features
 
 - Network access for synchronization
-- Home directory access for local storage
 - Hardware acceleration support (DRI)
 - Desktop integration with proper icons and .desktop file
 
@@ -49,11 +48,9 @@ Or launch it from your desktop environment's application menu.
 
 This Flatpak has the following permissions:
 
-- **IPC sharing**: Required for proper desktop integration
-- **X11 socket**: For GUI display
+- **Wayland socket**: For GUI display
 - **DRI device access**: Hardware acceleration support
 - **Network access**: For synchronization with cloud services
-- **Home directory access**: For accessing and storing notes locally
 
 ## Technical Details
 
@@ -83,7 +80,6 @@ The build process:
 - Ensure your sync service credentials are correct
 
 ### File access problems
-- The Flatpak has access to your home directory by default
 - If you need access to other locations, you may need to override permissions
 
 ## Related Links

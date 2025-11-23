@@ -3,8 +3,7 @@ runtime: org.freedesktop.Platform//24.08
 sdk: org.freedesktop.Sdk//24.08
 command: joplin_desktop
 finish-args:
-  - --share=ipc
-  - --socket=x11
+  - --socket=wayland
   - --device=dri
   - --share=network
   - --persist=
@@ -14,7 +13,7 @@ modules:
     buildsystem: simple
     build-commands:
       # Extract the .deb package
-      - ar x Joplin-3.4.12.deb
+      - ar x Joplin-3.5.7.deb
       # Extract data file
       - tar xf data.tar.xz
 
@@ -54,6 +53,6 @@ modules:
 
     sources:
       - type: file
-        url: https://github.com/laurent22/joplin/releases/download/v3.4.12/Joplin-3.4.12.deb
-        sha256: 49fafcfe615ac90449f9ce4545f807f054221df49877dbe785dbc7157ed0860d
-        dest-filename: Joplin-3.4.12.deb
+        url: https://github.com/laurent22/joplin/releases/download/v3.5.7/Joplin-3.5.7.deb
+        sha256: f25c47916422fcfaa9b17a67924be435bfb0f2714d55e062b9ac64548a789420
+        dest-filename: Joplin-3.5.7.deb
